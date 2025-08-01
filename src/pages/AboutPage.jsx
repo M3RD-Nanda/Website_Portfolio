@@ -1,23 +1,25 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  CodeBracketIcon, 
-  PaintBrushIcon, 
-  ChartBarIcon, 
-  CameraIcon 
-} from '@heroicons/react/24/outline';
-import { servicesData } from '../utils/constants';
+import React, { Suspense } from "react";
+import { motion } from "framer-motion";
+import { Canvas } from "@react-three/fiber";
+import {
+  CodeBracketIcon,
+  PaintBrushIcon,
+  ChartBarIcon,
+  CameraIcon,
+} from "@heroicons/react/24/outline";
+import { servicesData } from "../utils/constants";
+import EnhancedChibiModel from "../components/three/EnhancedChibiModel";
 
 const iconMap = {
   CodeBracketIcon,
   PaintBrushIcon,
   ChartBarIcon,
-  CameraIcon
+  CameraIcon,
 };
 
 const ServiceCard = ({ service, index }) => {
   const IconComponent = iconMap[service.icon];
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -41,31 +43,59 @@ const ServiceCard = ({ service, index }) => {
 const AboutPage = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-12">
-      {/* Introduction Section */}
+      {/* Mobile 3D Avatar - Only visible on mobile */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
+        className="lg:hidden bg-card-bg p-6 rounded-2xl"
+      >
+        <div className="w-full h-64 bg-primary-bg rounded-xl overflow-hidden">
+          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+            <ambientLight intensity={0.7} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <Suspense fallback={null}>
+              <EnhancedChibiModel scale={0.4} position={[0, -0.5, 0]} />
+            </Suspense>
+          </Canvas>
+        </div>
+        <div className="text-center mt-4">
+          <h1 className="text-2xl font-bold text-primary-text">
+            Muhammad Trinanda
+          </h1>
+          <button className="mt-2 px-4 py-1 bg-accent-yellow text-primary-bg rounded-full text-sm font-medium">
+            Web Developer
+          </button>
+        </div>
+      </motion.section>
+
+      {/* Introduction Section */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
         className="bg-card-bg p-8 rounded-2xl"
       >
-        <h2 className="text-3xl font-bold text-primary-text mb-6">
-          About Me
-        </h2>
+        <h2 className="text-3xl font-bold text-primary-text mb-6">About Me</h2>
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="space-y-4">
             <p className="text-gray-300 leading-relaxed">
-              I'm Muhammad Trinanda, a passionate web developer with a strong foundation in modern web technologies. 
-              I specialize in creating interactive, responsive, and user-friendly web applications using React, 
-              Three.js, and other cutting-edge technologies.
+              I'm Muhammad Trinanda, a passionate web developer with a strong
+              foundation in modern web technologies. I specialize in creating
+              interactive, responsive, and user-friendly web applications using
+              React, Three.js, and other cutting-edge technologies.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              My journey in web development is driven by a love for creating digital experiences that not only 
-              look great but also provide meaningful value to users. I combine technical expertise with creative 
-              design thinking to deliver solutions that exceed expectations.
+              My journey in web development is driven by a love for creating
+              digital experiences that not only look great but also provide
+              meaningful value to users. I combine technical expertise with
+              creative design thinking to deliver solutions that exceed
+              expectations.
             </p>
             <p className="text-gray-300 leading-relaxed">
-              When I'm not coding, you'll find me exploring new technologies, working on personal projects, 
-              or contributing to the developer community. I believe in continuous learning and staying up-to-date 
+              When I'm not coding, you'll find me exploring new technologies,
+              working on personal projects, or contributing to the developer
+              community. I believe in continuous learning and staying up-to-date
               with the latest trends in web development.
             </p>
           </div>
@@ -111,8 +141,9 @@ const AboutPage = () => {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-primary-bg p-6 rounded-xl">
             <p className="text-gray-300 italic mb-4">
-              "Muhammad delivered an exceptional website that exceeded our expectations. 
-              His attention to detail and technical expertise made the entire process smooth and professional."
+              "Muhammad delivered an exceptional website that exceeded our
+              expectations. His attention to detail and technical expertise made
+              the entire process smooth and professional."
             </p>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-accent-yellow rounded-full flex items-center justify-center">
@@ -126,8 +157,9 @@ const AboutPage = () => {
           </div>
           <div className="bg-primary-bg p-6 rounded-xl">
             <p className="text-gray-300 italic mb-4">
-              "Working with Muhammad was a great experience. He brought our vision to life with 
-              creative solutions and modern design principles."
+              "Working with Muhammad was a great experience. He brought our
+              vision to life with creative solutions and modern design
+              principles."
             </p>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-accent-yellow rounded-full flex items-center justify-center">

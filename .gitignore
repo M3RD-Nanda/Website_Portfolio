@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+
+# Old images folder (moved to public/images)
+/images
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
