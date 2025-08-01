@@ -1,10 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  AcademicCapIcon, 
-  BriefcaseIcon 
-} from '@heroicons/react/24/outline';
-import { educationData, experienceData, skillsData } from '../utils/constants';
+import React from "react";
+import { motion } from "framer-motion";
+import { AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/24/outline";
+import { educationData, experienceData, skillsData } from "../utils/constants";
 
 const TimelineItem = ({ item, index, icon: Icon }) => {
   return (
@@ -81,7 +78,7 @@ const ResumePage = () => {
       <div className="grid lg:grid-cols-2 gap-12">
         {/* Education Section */}
         <motion.section
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
@@ -103,7 +100,7 @@ const ResumePage = () => {
 
         {/* Experience Section */}
         <motion.section
-          initial={{ opacity: 0, x: 30 }}
+          initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
