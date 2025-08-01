@@ -1,12 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { portfolioProjects } from "../utils/constants";
-import ProjectModal from "../components/portfolio/ProjectModal";
+import ProjectDetail from "../components/portfolio/ProjectDetail";
 import ParticleSystem from "../components/common/ParticleSystem";
 import {
   staggerContainer,
-  fadeInUp,
-  scaleIn,
   scrollFadeIn,
   cardHover,
   buttonHover,
@@ -229,7 +227,20 @@ const TypingText = ({ text, delay = 0 }) => {
 const PortfolioPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const detailViewRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedProject && detailViewRef.current) {
+      const topOffset =
+        detailViewRef.current.getBoundingClientRect().top +
+        window.pageYOffset -
+        80; // 80px offset for navbar
+      window.scrollTo({
+        top: topOffset,
+        behavior: "smooth",
+      });
+    }
+  }, [selectedProject]);
 
   const categories = ["All", "Web design", "Graphic Design", "Video"];
 
@@ -242,16 +253,17 @@ const PortfolioPage = () => {
 
   const handleProjectClick = (project) => {
     setSelectedProject(project);
-    setIsModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseDetail = () => {
     setSelectedProject(null);
   };
 
   return (
-    <motion.div className="max-w-6xl mx-auto space-y-12 relative">
+    <motion.div
+      ref={detailViewRef}
+      className="max-w-6xl mx-auto space-y-12 relative"
+    >
       {/* Background Particle System */}
       <ParticleSystem particleCount={25} opacity={0.15} />
 
@@ -305,29 +317,40 @@ const PortfolioPage = () => {
         ))}
       </motion.div>
 
-      {/* Projects Grid */}
-      <motion.div layout className="relative z-10">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={`${activeFilter}-${project.id}`}
-                project={project}
-                index={index}
-                onClick={handleProjectClick}
-              />
-            ))}
-          </motion.div>
+      {/* Projects Grid / Detail View */}
+      <div className="relative z-10">
+        <AnimatePresence>
+          {!selectedProject ? (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                layout
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {filteredProjects.map((project, index) => (
+                  <ProjectCard
+                    key={`${activeFilter}-${project.id}`}
+                    project={project}
+                    index={index}
+                    onClick={handleProjectClick}
+                  />
+                ))}
+              </motion.div>
+            </motion.div>
+          ) : (
+            <ProjectDetail
+              key="detail"
+              project={selectedProject}
+              onClose={handleCloseDetail}
+            />
+          )}
         </AnimatePresence>
-      </motion.div>
+      </div>
 
       {/* Empty State */}
       {filteredProjects.length === 0 && (
@@ -449,13 +472,6 @@ const PortfolioPage = () => {
           ))}
         </div>
       </motion.div>
-
-      {/* Project Modal */}
-      <ProjectModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        project={selectedProject}
-      />
     </motion.div>
   );
 };
