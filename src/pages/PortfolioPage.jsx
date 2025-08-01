@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { portfolioProjects } from "../utils/constants";
 import ProjectDetail from "../components/portfolio/ProjectDetail";
@@ -326,7 +327,7 @@ const PortfolioPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
             >
               <motion.div
                 layout
