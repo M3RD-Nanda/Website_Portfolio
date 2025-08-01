@@ -1,5 +1,6 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
+import { motion } from "framer-motion";
 import {
   EnvelopeIcon,
   PhoneIcon,
@@ -8,6 +9,14 @@ import {
 } from "@heroicons/react/24/outline";
 import { personalInfo } from "../../utils/constants";
 import EnhancedChibiModel from "../three/EnhancedChibiModel";
+import {
+  staggerContainer,
+  fadeInUp,
+  scaleIn,
+  hoverScale,
+  buttonHover,
+  buttonTap,
+} from "../../utils/animations";
 
 const iconMap = {
   EnvelopeIcon,
@@ -16,7 +25,9 @@ const iconMap = {
   MapPinIcon,
 };
 
-const SocialIcon = ({ name, url }) => {
+const SocialIcon = ({ name, url, index }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const socialIcons = {
     linkedin: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -41,22 +52,105 @@ const SocialIcon = ({ name, url }) => {
   };
 
   return (
-    <a
+    <motion.a
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-primary-text hover:text-accent-yellow transition-colors duration-300"
+      className="relative text-primary-text hover:text-accent-yellow transition-colors duration-300"
+      variants={fadeInUp}
+      custom={index}
+      whileHover={hoverScale}
+      whileTap={buttonTap}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {socialIcons[name]}
-    </a>
+
+      {/* Glowing effect on hover */}
+      {isHovered && (
+        <motion.div
+          className="absolute inset-0 bg-accent-yellow opacity-20 blur-lg rounded-full"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.2, scale: 1.5 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.3 }}
+        />
+      )}
+
+      {/* Floating particles on hover */}
+      {isHovered && (
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-accent-yellow rounded-full"
+              style={{
+                left: `${20 + i * 20}%`,
+                top: `${10 + i * 30}%`,
+              }}
+              animate={{
+                y: [-5, -15, -5],
+                opacity: [0, 1, 0],
+                scale: [0, 1, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                delay: i * 0.2,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </motion.a>
   );
 };
 
 const Sidebar = () => {
   return (
-    <aside className="w-72 bg-card-bg p-6 flex flex-col items-center space-y-6 sticky top-0 h-screen overflow-y-auto hidden lg:flex">
-      {/* 3D Avatar */}
-      <div className="w-60 h-60 bg-primary-bg rounded-2xl overflow-hidden">
+    <motion.aside
+      variants={staggerContainer}
+      initial="initial"
+      animate="animate"
+      className="w-72 bg-card-bg p-6 flex flex-col items-center space-y-6 sticky top-0 h-screen overflow-y-auto hidden lg:flex relative"
+    >
+      {/* Background animated gradient */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-accent-yellow/5 via-transparent to-accent-yellow/5"
+        animate={{
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* 3D Avatar with enhanced container */}
+      <motion.div
+        variants={scaleIn}
+        className="w-60 h-60 bg-primary-bg rounded-2xl overflow-hidden relative group"
+        whileHover={{
+          scale: 1.02,
+          rotateY: 5,
+          transition: { duration: 0.3 },
+        }}
+      >
+        {/* Glowing border effect */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-accent-yellow via-transparent to-accent-yellow opacity-0 group-hover:opacity-30 rounded-2xl"
+          animate={{
+            rotate: [0, 360],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <ambientLight intensity={0.7} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
@@ -64,54 +158,169 @@ const Sidebar = () => {
             <EnhancedChibiModel scale={0.4} position={[0, -0.5, 0]} />
           </Suspense>
         </Canvas>
-      </div>
 
-      {/* Name and Role */}
-      <div className="text-center">
-        <h1 className="text-xl font-bold text-primary-text mb-2">
+        {/* Floating orbs around avatar */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-accent-yellow rounded-full opacity-60"
+              style={{
+                left: `${20 + i * 20}%`,
+                top: `${20 + i * 15}%`,
+              }}
+              animate={{
+                y: [-10, 10, -10],
+                x: [-5, 5, -5],
+                opacity: [0.3, 0.8, 0.3],
+              }}
+              transition={{
+                duration: 3 + i * 0.5,
+                repeat: Infinity,
+                delay: i * 0.5,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Name and Role with typing effect */}
+      <motion.div variants={fadeInUp} className="text-center relative z-10">
+        <motion.h1
+          className="text-xl font-bold text-primary-text mb-2"
+          whileHover={{
+            scale: 1.05,
+            textShadow: "0 0 20px rgba(255, 200, 0, 0.5)",
+          }}
+        >
           {personalInfo.name}
-        </h1>
-        <button className="px-4 py-1 bg-accent-yellow text-primary-bg rounded-full text-sm font-medium hover:bg-yellow-400 transition-colors duration-300">
-          {personalInfo.role}
-        </button>
-      </div>
+        </motion.h1>
+        <motion.button
+          className="px-4 py-1 bg-accent-yellow text-primary-bg rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden"
+          whileHover={buttonHover}
+          whileTap={buttonTap}
+        >
+          <motion.span className="relative z-10">
+            {personalInfo.role}
+          </motion.span>
 
-      {/* Contact Information */}
-      <div className="w-full space-y-4">
+          {/* Animated background */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-600"
+            initial={{ x: "-100%" }}
+            whileHover={{ x: "0%" }}
+            transition={{ duration: 0.3 }}
+          />
+        </motion.button>
+      </motion.div>
+
+      {/* Contact Information with stagger animation */}
+      <motion.div
+        variants={staggerContainer}
+        className="w-full space-y-4 relative z-10"
+      >
         {personalInfo.contact.map((item, index) => {
           const IconComponent = iconMap[item.icon];
           return (
-            <div key={index} className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-primary-bg rounded-lg flex items-center justify-center">
-                <IconComponent className="w-4 h-4 text-accent-yellow" />
-              </div>
+            <motion.div
+              key={index}
+              variants={fadeInUp}
+              custom={index}
+              className="flex items-center space-x-3 group cursor-pointer"
+              whileHover={{
+                x: 5,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <motion.div
+                className="w-8 h-8 bg-primary-bg rounded-lg flex items-center justify-center relative overflow-hidden"
+                whileHover={{
+                  scale: 1.1,
+                  rotate: 5,
+                  backgroundColor: "rgba(255, 200, 0, 0.1)",
+                }}
+              >
+                <IconComponent className="w-4 h-4 text-accent-yellow relative z-10" />
+
+                {/* Ripple effect */}
+                <motion.div
+                  className="absolute inset-0 bg-accent-yellow opacity-0 group-hover:opacity-20"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0, 0.2, 0],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              </motion.div>
               <div className="flex-1">
                 <p className="text-xs text-gray-400 uppercase tracking-wide">
                   {item.label}
                 </p>
                 {item.href ? (
-                  <a
+                  <motion.a
                     href={item.href}
                     className="text-sm text-primary-text hover:text-accent-yellow transition-colors duration-300"
+                    whileHover={{ x: 2 }}
                   >
                     {item.value}
-                  </a>
+                  </motion.a>
                 ) : (
                   <p className="text-sm text-primary-text">{item.value}</p>
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
-      {/* Social Links */}
-      <div className="flex space-x-4 pt-4">
+      {/* Social Links with enhanced animations */}
+      <motion.div
+        variants={staggerContainer}
+        className="flex space-x-4 pt-4 relative z-10"
+      >
         {personalInfo.socials.map((social, index) => (
-          <SocialIcon key={index} name={social.icon} url={social.url} />
+          <SocialIcon
+            key={index}
+            name={social.icon}
+            url={social.url}
+            index={index}
+          />
+        ))}
+      </motion.div>
+
+      {/* Animated decorative elements */}
+      <div className="absolute bottom-4 left-4 right-4 h-px bg-gradient-to-r from-transparent via-accent-yellow to-transparent opacity-30" />
+
+      {/* Floating background particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-accent-yellow rounded-full opacity-20"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [-20, 20, -20],
+              x: [-10, 10, -10],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 4 + i * 0.5,
+              repeat: Infinity,
+              delay: i * 0.8,
+              ease: "easeInOut",
+            }}
+          />
         ))}
       </div>
-    </aside>
+    </motion.aside>
   );
 };
 
