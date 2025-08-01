@@ -25,17 +25,15 @@ const ProjectCard = ({ project, index, onClick }) => {
         </div>
       </div>
       <div className="p-6">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-lg font-semibold text-primary-text">
-            {project.title}
-          </h3>
-          <span className="bg-accent-yellow bg-opacity-20 text-accent-yellow px-3 py-1 rounded-full text-xs font-medium">
-            {project.category}
-          </span>
-        </div>
-        <p className="text-gray-400 text-sm leading-relaxed">
+        <h3 className="text-lg font-semibold text-primary-text mb-3">
+          {project.title}
+        </h3>
+        <p className="text-gray-400 text-sm leading-relaxed mb-3">
           {project.description}
         </p>
+        <span className="bg-accent-yellow bg-opacity-20 text-accent-yellow px-3 py-1 rounded-full text-xs font-medium">
+          {project.category}
+        </span>
       </div>
     </motion.div>
   );
