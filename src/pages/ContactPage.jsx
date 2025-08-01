@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import {
   PaperAirplaneIcon,
   EnvelopeIcon,
@@ -7,6 +6,9 @@ import {
   MapPinIcon,
 } from "@heroicons/react/24/outline";
 import emailjs from "@emailjs/browser";
+import LoadingSpinner from "../components/common/LoadingSpinner.jsx";
+
+import Map from "../components/common/Map.jsx";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -56,26 +58,16 @@ const ContactPage = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-12">
       {/* Page Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center"
-      >
+      <div className="text-center">
         <h1 className="text-4xl font-bold text-primary-text mb-4">Contact</h1>
         <p className="text-gray-400 text-lg">
           Let's discuss your next project or just say hello
         </p>
-      </motion.div>
+      </div>
 
       <div className="grid lg:grid-cols-2 gap-12">
         {/* Contact Information */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-8"
-        >
+        <div className="space-y-8">
           <div>
             <h2 className="text-2xl font-bold text-primary-text mb-6">
               Get in Touch
@@ -147,15 +139,10 @@ const ContactPage = () => {
               </a>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Contact Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-card-bg p-8 rounded-2xl"
-        >
+        <div className="bg-card-bg p-8 rounded-2xl">
           <h2 className="text-2xl font-bold text-primary-text mb-6">
             Send Message
           </h2>
@@ -203,7 +190,7 @@ const ContactPage = () => {
               className="w-full bg-accent-yellow text-primary-bg py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
-                <div className="loading-spinner w-5 h-5"></div>
+                <LoadingSpinner />
               ) : (
                 <>
                   <span>Send Message</span>
@@ -224,27 +211,18 @@ const ContactPage = () => {
               </div>
             )}
           </form>
-        </motion.div>
+        </div>
       </div>
 
       {/* Map Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="bg-card-bg p-8 rounded-2xl"
-      >
+      <div className="bg-card-bg p-8 rounded-2xl">
         <h2 className="text-2xl font-bold text-primary-text mb-6 text-center">
           Location
         </h2>
-        <div className="w-full h-64 bg-primary-bg rounded-lg flex items-center justify-center">
-          <p className="text-gray-400">
-            Google Maps integration would go here
-            <br />
-            <span className="text-accent-yellow">Medan, Indonesia</span>
-          </p>
+        <div className="w-full h-80 bg-primary-bg rounded-lg overflow-hidden">
+          <Map />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

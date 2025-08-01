@@ -474,3 +474,132 @@ body {
   width: 300px;
   height: 300px;
 }
+
+/* --- Custom MapTiler Leaflet Styles --- */
+
+/* Custom pulsating marker */
+.custom-marker .marker-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #ffc800;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.7);
+}
+.custom-marker .marker-pin::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin: 8px 0 0 8px;
+  background: #1e1e1e;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.custom-marker .marker-pulse {
+  background: rgba(255, 200, 0, 0.5);
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -7px 0 0 -7px;
+  z-index: -2;
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(12);
+    opacity: 0;
+  }
+}
+
+/* Custom Zoom Slider */
+.custom-zoom-slider {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(40, 40, 40, 0.8);
+  padding: 15px 8px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 200, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.custom-zoom-slider .slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  background: transparent;
+  outline: none;
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+
+.custom-zoom-slider .slider::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  background: transparent;
+  border: transparent;
+}
+
+.custom-zoom-slider .slider::-moz-range-track {
+  background: transparent;
+  border-color: transparent;
+}
+
+.custom-zoom-slider .slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #ffc800;
+  border-radius: 50%;
+  border: 3px solid #282828;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.7);
+  transition: transform 0.3s, box-shadow 0.3s;
+  margin-top: -8px;
+}
+
+.custom-zoom-slider .slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #ffc800;
+  border-radius: 50%;
+  border: 3px solid #282828;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.7);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-color: transparent;
+}
+
+.custom-zoom-slider .slider:hover::-webkit-slider-thumb {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 200, 0, 1);
+}
+
+.custom-zoom-slider .slider:hover::-moz-range-thumb {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(255, 200, 0, 1);
+}
