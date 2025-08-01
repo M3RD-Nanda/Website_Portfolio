@@ -136,7 +136,7 @@ const ServiceCard = ({ service, index }) => {
 
 const TypingText = ({ text, delay = 0 }) => {
   return (
-    <motion.div
+    <motion.span
       variants={staggerContainer}
       initial="initial"
       animate="animate"
@@ -161,7 +161,7 @@ const TypingText = ({ text, delay = 0 }) => {
           {char === " " ? "\u00A0" : char}
         </motion.span>
       ))}
-    </motion.div>
+    </motion.span>
   );
 };
 
@@ -246,19 +246,6 @@ const AboutPage = () => {
         {...scrollFadeIn}
         className="bg-card-bg p-8 rounded-2xl relative overflow-hidden"
       >
-        {/* Animated background */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-accent-yellow/5 via-transparent to-accent-yellow/5"
-          animate={{
-            x: [-100, 100, -100],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
         <motion.h2
           variants={textReveal}
           initial="initial"

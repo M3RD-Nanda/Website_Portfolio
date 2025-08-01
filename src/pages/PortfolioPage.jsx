@@ -197,7 +197,7 @@ const FilterButton = ({ category, isActive, onClick, index }) => {
 
 const TypingText = ({ text, delay = 0 }) => {
   return (
-    <motion.div
+    <motion.span
       variants={staggerContainer}
       initial="initial"
       animate="animate"
@@ -222,7 +222,7 @@ const TypingText = ({ text, delay = 0 }) => {
           {char === " " ? "\u00A0" : char}
         </motion.span>
       ))}
-    </motion.div>
+    </motion.span>
   );
 };
 

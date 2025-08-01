@@ -138,19 +138,6 @@ const Sidebar = () => {
           transition: { duration: 0.3 },
         }}
       >
-        {/* Glowing border effect */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-accent-yellow via-transparent to-accent-yellow opacity-0 group-hover:opacity-30 rounded-2xl"
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <ambientLight intensity={0.7} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
