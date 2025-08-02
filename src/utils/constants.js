@@ -18,7 +18,7 @@ export const personalInfo = {
     },
     {
       label: "Birthday",
-      value: "01 Jan 2000",
+      value: "xx Jan 2003",
       icon: "CalendarIcon",
     },
     {
