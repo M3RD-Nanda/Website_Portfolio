@@ -8,7 +8,7 @@ import {
   CameraIcon,
 } from "@heroicons/react/24/outline";
 import { servicesData } from "../utils/constants";
-import EnhancedChibiModel from "../components/three/EnhancedChibiModel";
+import ChibiModel from "../components/three/ChibiModel";
 import ParticleSystem from "../components/common/ParticleSystem";
 import {
   staggerContainer,
@@ -203,11 +203,15 @@ const AboutPage = () => {
         />
 
         <div className="w-full h-64 bg-primary-bg rounded-xl overflow-hidden relative">
-          <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+          <Canvas camera={{ position: [0, 0, 35], fov: 45 }}>
             <ambientLight intensity={0.7} />
             <directionalLight position={[5, 5, 5]} intensity={1} />
             <Suspense fallback={null}>
-              <EnhancedChibiModel scale={0.4} position={[0, -0.5, 0]} />
+              <ChibiModel
+                fitHeight={2.6}
+                scaleMultiplier={10}
+                position={[0, -13, 0]}
+              />
             </Suspense>
           </Canvas>
         </div>

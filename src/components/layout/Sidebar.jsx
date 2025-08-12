@@ -8,7 +8,6 @@ import {
   MapPinIcon,
 } from "@heroicons/react/24/outline";
 import { personalInfo } from "../../utils/constants";
-import EnhancedChibiModel from "../three/EnhancedChibiModel";
 import {
   staggerContainer,
   fadeInUp,
@@ -17,6 +16,7 @@ import {
   buttonHover,
   buttonTap,
 } from "../../utils/animations";
+import ChibiModel from "../three/ChibiModel";
 
 const iconMap = {
   EnvelopeIcon,
@@ -138,11 +138,15 @@ const Sidebar = () => {
           transition: { duration: 0.3 },
         }}
       >
-        <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+        <Canvas camera={{ position: [0, 0, 38], fov: 45 }}>
           <ambientLight intensity={0.7} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
           <Suspense fallback={null}>
-            <EnhancedChibiModel scale={0.4} position={[0, -0.5, 0]} />
+            <ChibiModel
+              fitHeight={2.8}
+              scaleMultiplier={10}
+              position={[0, -13, 0]}
+            />
           </Suspense>
         </Canvas>
 
